@@ -1,0 +1,593 @@
+﻿@model IEnumerable<ACETreasureHunt.Models.Team>
+
+@{
+    ViewBag.Title = "Details";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        Event Details
+    </title>
+    <link href="@Url.Content("~/Content/home.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Leaderboard.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/threedetails.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/leaflet.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/leaflet-routing-machine.css")" rel="stylesheet" type="text/css" />
+    <!--Leaflet-->
+    <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />-->
+    <!--<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="lib/leaflet/routing/leaflet-routing-machine.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Views/Event/lib/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="~/Scripts/countries.js"></script>
+    <script type="text/javascript" src="~/Views/Event/lib/leaflet/routing+/leaflet-routing-machine.js"></script>
+    <script type="text/javascript" src="~/Views/Event/lib/leaflet/routing/lrm-graphhopper.js"></script>
+    <style type="text/css">
+        #map {
+            width: 100%;
+            height: 400px;
+            border-radius:10px;
+        }
+
+        .legend {
+            background: white;
+            line-height: 1.5em
+        }
+
+            .legend i {
+                width: 5em;
+                float: left
+            }
+        .map {
+            width: 100%;
+            height: 400px;
+            border-radius:10px;
+        }
+        .well{
+            margin-top:20px;
+            background-color: rgba(48, 48, 48, 0.69);
+            border: 1px solid #2b2d2e;
+        }
+
+        .jill{
+            background-color:darkgray;
+            float:left;
+             border-radius: 100px;
+             background-color: rgba(169, 169, 169, 0.38);
+             width: 200px;
+             margin-top:50px;
+             text-align:center;
+             color:aliceblue;
+             height: 200px;
+
+
+        }
+        .jung{
+            background-color:darkgray;
+            float:left;
+             border-radius: 100px;
+             width: 200px;
+            background-color: rgba(169, 169, 169, 0.38);
+            height: 200px;
+            margin-top:100px;
+            text-align:center;
+            color:aliceblue;
+            border-width:3px;
+            border-color:aliceblue;
+
+        }
+        .juck{
+            background-color:darkgray;
+            float:left;
+            border-radius: 100px;
+            width: 200px;
+            height: 200px;
+            text-align:center;
+            color:aliceblue;
+            background-color: rgba(169, 169, 169, 0.38);
+            margin-top:100px;
+            border-width:3px;
+            border-color:aliceblue;
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="container abc">
+    <h2 class="white">Details</h2>
+
+    <div class="pricing-table pricing-three-column row">
+        <div class="plan col-sm-4 col-lg-4">
+            <div class="plan-name-bronze">
+                <h3>Teams</h3>
+                <img class="ack" src="http://software.improve1.com/content/itpvt-team3.jpg" alt="myImagetitle" />
+            </div>
+            <ul>
+                @foreach (var team in ViewBag.MyList)
+                {
+                    <li class="plan-feature">@team.Name</li>
+                }
+                
+                @if (User.Identity.IsAuthenticated)
+                {
+                <li class="plan-feature"><a href="#" class="btn btn-primary btn-plan-select" onclick="location.href='@Url.Action("Index", "Team")'"><i class="icon-white icon-ok"></i>Manage</a></li>
+                }
+            </ul>
+        </div>
+
+
+        <div style="z-index:55;" class="plan col-sm-4 col-lg-4">
+            <div class="plan-name-silver">
+                <h3>Staffs</h3>
+                <img class="ack" src="http://www.affordablesantafedentist.com/wp-content/uploads/2012/08/118251024.jpg" alt="myImagetitle" />
+            </div>
+            <ul>
+                @foreach (var event2 in ViewBag.MyList2)
+                {
+                    <li class="plan-feature">@event2.Name</li>
+                }
+                
+                @if (User.Identity.IsAuthenticated)
+                {
+                <li class="plan-feature"><a href="#" class="btn btn-primary btn-plan-select" onclick="location.href='@Url.Action("Index", "Staff")'"><i class="icon-white icon-ok"></i>Manage</a></li>
+                }
+            </ul>
+        </div>
+        <div class="plan col-sm-4 col-lg-4">
+            <div class="plan-name-gold">
+                <h3>PitStop</h3>
+                <img class="ack" src="http://www.clipartkid.com/images/643/mail-the-author-at-mom-about-town-dvo-gmail-com-visit-www-PyeKRm-clipart.png" alt="myImagetitle" />
+            </div>
+            <ul>
+                @foreach (var event3 in ViewBag.MyList3)
+                {
+                    <li class="plan-feature">@event3.PitStopName</li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                <li class="plan-feature"><a href="#" class="btn btn-primary btn-plan-select" onclick="location.href='@Url.Action("Index", "PitStop")'"><i class="icon-white icon-ok"></i>Manage</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="container well">
+        <div style="margin-left:20%;overflow:auto;">
+        <div class="jung"><h1>2 nd</h1><span>place</span><input id="rank2" type="text" name="Fname" class="btn btn-primary"></div>
+         <div class="jill"><h1>1 st</h1><span>place</span><input id="rank1" type="text" name="Fname" class="btn btn-primary"></div>
+         <div class="juck"><h1>3 rd</h1><span>place</span><input id="rank3" type="text" name="Fname" class="btn btn-primary"></div>
+        </div>
+        </div>
+
+    <div id="map" class="map"></div>
+    </div>
+    <script>
+			<!-- Add countries in map -->
+			var map = L.map('map').setView([1.3046014, 103.7701238], 6);
+			//var countriesLayer = L.geoJson(countries).addTo(map);
+
+			//<!-- Routing -->
+			var i = 0;
+			var iTeam1Displace2 = 0;
+			var iTeam1Displace3 = 0;
+			var jTeam2Displace1 = 0;
+			var jTeam2Displace2 = 0;
+			var jTeam2Displace3 = 0;
+			var kTeam3Displace1 = 0;
+			var kTeam3Displace2 = 0;
+			var kTeam3Displace3 = 0;
+            var finish1 = 0;
+            var finish2 = 0;
+            var finish3 = 0;
+			var routeControl = null;
+            var coordArr = {};
+
+        //Show staffs
+            var staffMarker1 = L.marker([@ViewBag.StaffLatitudeList[0], @ViewBag.StaffLongitudeList[0]], { draggable: false, title: '@ViewBag.Staff1' }).addTo(map);
+            var staffMarker2 = L.marker([@ViewBag.StaffLatitudeList[1], @ViewBag.StaffLongitudeList[1]], { draggable: false, title: '@ViewBag.Staff2' }).addTo(map);
+            var staffMarker3 = L.marker([@ViewBag.StaffLatitudeList[2], @ViewBag.StaffLongitudeList[2]], { draggable: false, title: '@ViewBag.Staff3' }).addTo(map);
+
+            var moveCounterTeam1 = 0;
+            var moveCounterTeam2 = 0;
+            var moveCounterTeam3 = 0;
+
+            var updateRankings = function () {
+                if (moveCounterTeam1 > moveCounterTeam2 && moveCounterTeam1 > moveCounterTeam3) {
+                    //Team 1 first
+                    $('#rank1').val("@ViewBag.MyList[0].Name");
+                    if (moveCounterTeam2 > moveCounterTeam3) {
+                        // Team 2 second, Team 3 third
+                        $('#rank2').val("@ViewBag.MyList[1].Name");
+                        $('#rank3').val("@ViewBag.MyList[2].Name");
+                        }
+                        else {
+                        // Team 3 second, Team 2 third
+                        $('#rank2').val("@ViewBag.MyList[2].Name");
+                        $('#rank3').val("@ViewBag.MyList[1].Name");
+                        }
+
+                    }
+                   if (moveCounterTeam2 > moveCounterTeam1 && moveCounterTeam2 > moveCounterTeam3){
+                        // Team 2 first
+                       $('#rank1').val("@ViewBag.MyList[1].Name");
+                       if (moveCounterTeam3 > moveCounterTeam1) {
+                           // Team 3 second, Team 1 third
+                           $('#rank2').val("@ViewBag.MyList[2].Name");
+                           $('#rank3').val("@ViewBag.MyList[0].Name");
+                       }
+                       else {
+                           // Team 1 second, Team 3 third
+                           $('#rank2').val("@ViewBag.MyList[0].Name");
+                           $('#rank3').val("@ViewBag.MyList[2].Name");
+                       }
+                    }
+                    else {
+                        // Team 3 first
+                       $('#rank1').val("@ViewBag.MyList[2].Name");
+                       if (moveCounterTeam1 > moveCounterTeam2) {
+                           // Team 1 second, Team 2 third
+                           $('#rank2').val("@ViewBag.MyList[0].Name");
+                           $('#rank3').val("@ViewBag.MyList[1].Name");
+                       }
+                       else {
+                           // Team 2 second, Team 1 third
+                           $('#rank2').val("@ViewBag.MyList[1].Name");
+                           $('#rank3').val("@ViewBag.MyList[0].Name");
+                       }
+                   }
+                   setTimeout(updateRankings, 1000);
+                }
+
+			//<!-- 1st way  From 1 to 2-- >
+			var latitude1 = @ViewBag.EventLat;
+            var longitude1 = @ViewBag.EventLong;
+			var latitude2 = @ViewBag.MyList3[0].Latitude;
+            var longitude2 = @ViewBag.MyList3[0].Longitude;
+            var startMarker = L.marker([latitude1, longitude1], { draggable: false, title: '@ViewBag.MyList[0].Name' }).bindPopup("@ViewBag.MyList[0].Name").openPopup().addTo(map);
+            var eventStartMarker = L.marker([latitude1, longitude1], { draggable: false, title: 'EventStartPoint' }).addTo(map);
+            var endMarker = L.marker([latitude2, longitude2], { draggable: false, title: '@ViewBag.MyList3[0].PitStopName' }).addTo(map);
+
+            var startMarkerTeam2 = L.marker([latitude1, longitude1], { draggable: false, title: '@ViewBag.MyList[1].Name' }).bindPopup("@ViewBag.MyList[1].Name").openPopup().addTo(map);
+            var startMarkerTeam3 = L.marker([latitude1, longitude1], { draggable: false, title: '@ViewBag.MyList[2].Name' }).bindPopup("@ViewBag.MyList[2].Name").openPopup().addTo(map);
+
+			<!-- 2nd way, From 2 to 3 -- >
+			var routeControl2 = null;
+			var coordArr2 = {} ;
+			var latitude3 = @ViewBag.MyList3[1].Latitude;
+			var longitude3 = @ViewBag.MyList3[1].Longitude;
+			var startMarker2 = L.marker([latitude2, longitude2], { draggable: false, title :'@ViewBag.MyList3[0].PitStopName'}).addTo(map);
+			var endMarker2 = L.marker([latitude3, longitude3], { draggable: false, title :'@ViewBag.MyList3[1].PitStopName'}).addTo(map);
+
+			<!-- 3rd way From 3 to 4-- >
+			var routeControl3 = null;
+			var coordArr3 = {} ;
+			var latitude4 = @ViewBag.MyList3[2].Latitude;
+			var longitude4 = @ViewBag.MyList3[2].Longitude;
+			var startMarker3 = L.marker([latitude3, longitude3], { draggable: false,title: '@ViewBag.MyList3[1].PitStopName'}).addTo(map);
+			var endMarker3 = L.marker([latitude4, longitude4], { draggable: false, title : '@ViewBag.MyList3[2].PitStopName'}).addTo(map);
+
+			function routeImpl(){
+			L.tileLayer( 'http://{s}.tile.osm.org/{z}/{x}/{y}{r}.png', {
+				attribution: '© OpenStreetMap contributors'
+			}).addTo(map);
+
+			if ( null == routeControl ){
+				//Create route control
+				routeControl = L.Routing.control({
+				waypoints: [
+				L.latLng(latitude1, longitude1),
+				L.latLng(latitude2, longitude2)
+				],
+				createMarker: function(i, waypoint, n){
+					if ( 0 == i ){return startMarker;}
+					return endMarker;
+				},
+				routeWhileDragging: true,
+				router: L.Routing.graphHopper('49b2a42d-a150-46bc-9edc-e60a10a781fd')
+				//geocoder: L.Control.Geocoder.nominatim()
+			}).addTo(map);}
+
+			if ( null == routeControl2 ){
+				//Create route control
+				routeControl2 = L.Routing.control({
+				waypoints: [
+				L.latLng(latitude2, longitude2),
+				L.latLng(latitude3, longitude3)
+				],
+				createMarker: function(i, waypoint, n){
+					if ( 0 == i ){return startMarker2;}
+					return endMarker2;
+				},
+				routeWhileDragging: true,
+				router: L.Routing.graphHopper('49b2a42d-a150-46bc-9edc-e60a10a781fd')
+				//geocoder: L.Control.Geocoder.nominatim()
+			}).addTo(map);}
+
+			if ( null == routeControl3 ){
+				//Create route control
+				routeControl3 = L.Routing.control({
+				waypoints: [
+				L.latLng(latitude3, longitude3),
+				L.latLng(latitude4, longitude4)
+				],
+				createMarker: function(i, waypoint, n){
+					if ( 0 == i ){return startMarker3;}
+					return endMarker3;
+				},
+				routeWhileDragging: true,
+				router: L.Routing.graphHopper('49b2a42d-a150-46bc-9edc-e60a10a781fd')
+				//geocoder: L.Control.Geocoder.nominatim()
+			}).addTo(map);}
+			// override
+
+			routeControl.on('routesfound', function(e) {
+			var routes = e.routes;
+			var distance = routes[0].summary.totalDistance;
+			coordArr = routes[0].coordinates.slice();
+			});
+
+			routeControl2.on('routesfound', function(e) {
+			var routes = e.routes;
+			var distance = routes[0].summary.totalDistance;
+			coordArr2 = routes[0].coordinates.slice();
+			});
+
+			routeControl3.on('routesfound', function(e) {
+			var routes = e.routes;
+			var distance = routes[0].summary.totalDistance;
+			coordArr3 = routes[0].coordinates.slice();
+			});
+			setTimeout(displaceMarker, 2000);
+			setTimeout(displaceMarkerTeam2, 2000);
+            setTimeout(displaceMarkerTeam3, 2000);
+            setTimeout(updateRankings, 1000);
+			}
+
+			var displaceMarker = function(){
+				var newLatlng = L.latLng(coordArr[i].lat, coordArr[i].lng);
+				if( !(newLatlng.equals(L.latLng(latitude2, longitude2)) ) )
+				{
+					startMarker.setLatLng(newLatlng);
+					startMarker.addTo(map);
+					//e.waypoints[0].latLng
+                    ++i;
+                    ++moveCounterTeam1;
+					console.log('i =',i);
+					console.log('Random Number', Math.random());
+					if ( 0 == finish1 ){
+						setTimeout(displaceMarker, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( i == coordArr.length ){
+					startMarker.setLatLng(L.latLng(latitude2, longitude2));
+					startMarker.addTo(map);
+					console.log('coordArr2.length',coordArr2.length);
+                    setTimeout(displaceMarker2, Math.random()*1500);
+				}
+			}
+
+			var displaceMarker2 = function(){
+
+				var newLatlng = L.latLng(coordArr2[iTeam1Displace2].lat, coordArr2[iTeam1Displace2].lng);
+				if( !(newLatlng.equals(L.latLng(latitude3, longitude3)) ) )
+				{
+					startMarker.setLatLng(newLatlng);
+					startMarker.addTo(map);
+					//e.waypoints[0].latLng
+                    iTeam1Displace2 = iTeam1Displace2 + 1;
+                    ++moveCounterTeam1;
+					console.log('iTeam1Displace2 =',iTeam1Displace2);
+					console.log('Random Number', Math.random());
+					if ( 0 == finish1 ){
+                        setTimeout(displaceMarker2, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( iTeam1Displace2 == coordArr2.length ){
+					startMarker.setLatLng(L.latLng(latitude3, longitude3));
+					startMarker.addTo(map);
+					console.log('coordArr3.length',coordArr3.length);
+                    setTimeout(displaceMarker3, Math.random()*1500);
+				}
+
+			}
+
+			var displaceMarker3 = function(){
+
+
+				var newLatlng = L.latLng(coordArr3[iTeam1Displace3].lat, coordArr3[iTeam1Displace3].lng);
+				if( !(newLatlng.equals(L.latLng(latitude4, longitude4)) ) )
+				{
+					startMarker.setLatLng(newLatlng);
+					startMarker.addTo(map);
+					//e.waypoints[0].latLng
+                    ++iTeam1Displace3;
+                    ++moveCounterTeam1;
+					if ( 0 == finish1 ){
+                        setTimeout(displaceMarker3, Math.random() * 1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( iTeam1Displace3 == (coordArr3.length-1) ){
+					finish1 = 1;
+					console.log('Should Finish', finish);
+					throw new Error("Something went badly wrong!");
+				}
+			}
+
+			var displaceMarkerTeam2 = function(){
+				var newLatlng = L.latLng(coordArr[jTeam2Displace1].lat, coordArr[jTeam2Displace1].lng);
+				if( !(newLatlng.equals(L.latLng(latitude2, longitude2)) ) )
+				{
+					startMarkerTeam2.setLatLng(newLatlng);
+					startMarkerTeam2.addTo(map);
+					//e.waypoints[0].latLng
+                    ++jTeam2Displace1;
+                    ++moveCounterTeam2;
+					console.log('jTeam2Displace1 =',jTeam2Displace1);
+					if ( 0 == finish2 ){
+						setTimeout(displaceMarkerTeam2, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( jTeam2Displace1 == coordArr.length ){
+					startMarkerTeam2.setLatLng(L.latLng(latitude2, longitude2));
+					startMarkerTeam2.addTo(map);
+					console.log('Team2 coordArr.length',coordArr.length);
+					setTimeout(displaceMarker2Team2, Math.random()*1500);
+				}
+			}
+
+			var displaceMarker2Team2 = function(){
+				var newLatlng = L.latLng(coordArr2[jTeam2Displace2].lat, coordArr2[jTeam2Displace2].lng);
+				if( !(newLatlng.equals(L.latLng(latitude3, longitude3)) ) )
+				{
+					startMarkerTeam2.setLatLng(newLatlng);
+					startMarkerTeam2.addTo(map);
+					//e.waypoints[0].latLng
+                    ++jTeam2Displace2;
+                    ++moveCounterTeam2;
+					console.log('Team2 displace 2 jTeam2Displace1 =',jTeam2Displace2);
+					if ( 0 == finish2 ){
+						setTimeout(displaceMarker2Team2, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( jTeam2Displace2 == coordArr2.length ){
+					startMarkerTeam2.setLatLng(L.latLng(latitude3, longitude3));
+					startMarkerTeam2.addTo(map);
+					console.log('Team2 coordArr2.length',coordArr2.length);
+					setTimeout(displaceMarker3Team2, Math.random()*1500);
+				}
+			}
+
+			var displaceMarker3Team2 = function(){
+				var newLatlng = L.latLng(coordArr3[jTeam2Displace3].lat, coordArr3[jTeam2Displace3].lng);
+				if( !(newLatlng.equals(L.latLng(latitude4, longitude4)) ) )
+				{
+					startMarkerTeam2.setLatLng(newLatlng);
+					startMarkerTeam2.addTo(map);
+					//e.waypoints[0].latLng
+                    ++jTeam2Displace3;
+                    ++moveCounterTeam2;
+					console.log('jTeam2Displace3 =',jTeam2Displace3);
+					if ( 0 == finish2 ){
+						setTimeout(displaceMarker3Team2, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( jTeam2Displace3 == (coordArr3.length-1) ){
+					finish2 = 1;
+					startMarkerTeam2.setLatLng(L.latLng(latitude4, longitude4));
+					startMarkerTeam2.addTo(map);
+					console.log('Team2 coordArr3.length jTeam2Displace1', coordArr3.length);
+					raceFinish;
+				}
+			}
+
+			// Team 3 Displacement 1
+			var displaceMarkerTeam3 = function(){
+				var newLatlng = L.latLng(coordArr[kTeam3Displace1].lat, coordArr[kTeam3Displace1].lng);
+				if( !(newLatlng.equals(L.latLng(latitude2, longitude2)) ) )
+				{
+					startMarkerTeam3.setLatLng(newLatlng);
+					startMarkerTeam3.addTo(map);
+					//e.waypoints[0].latLng
+                    ++kTeam3Displace1;
+                    ++moveCounterTeam3;
+					console.log('kTeam3Displace1 =',kTeam3Displace1);
+					if ( 0 == finish3 ){
+						setTimeout(displaceMarkerTeam3, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( kTeam3Displace1 == coordArr.length ){
+					startMarkerTeam3.setLatLng(L.latLng(latitude2, longitude2));
+					startMarkerTeam3.addTo(map);
+					console.log('Team2 coordArr.length',coordArr.length);
+					setTimeout(displaceMarker2Team3, Math.random()*1500);
+				}
+			}
+			//Team 3 Displacement 2
+			var displaceMarker2Team3 = function(){
+				var newLatlng = L.latLng(coordArr2[kTeam3Displace2].lat, coordArr2[kTeam3Displace2].lng);
+				if( !(newLatlng.equals(L.latLng(latitude3, longitude3)) ) )
+				{
+					startMarkerTeam3.setLatLng(newLatlng);
+					startMarkerTeam3.addTo(map);
+					//e.waypoints[0].latLng
+                    ++kTeam3Displace2;
+                    ++moveCounterTeam3;
+					console.log('Team2 displace 2 kTeam3Displace2 =',kTeam3Displace2);
+					if ( 0 == finish3 ){
+						setTimeout(displaceMarker2Team3, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( kTeam3Displace2 == coordArr2.length ){
+					startMarkerTeam3.setLatLng(L.latLng(latitude3, longitude3));
+					startMarkerTeam3.addTo(map);
+					console.log('Team2 coordArr2.length',coordArr2.length);
+					setTimeout(displaceMarker3Team3, Math.random()*1500);
+				}
+			}
+
+			// Team 3 Displacement 3
+			var displaceMarker3Team3 = function(){
+				var newLatlng = L.latLng(coordArr3[kTeam3Displace3].lat, coordArr3[kTeam3Displace3].lng);
+				if( !(newLatlng.equals(L.latLng(latitude4, longitude4)) ) )
+				{
+					startMarkerTeam3.setLatLng(newLatlng);
+					startMarkerTeam3.addTo(map);
+					//e.waypoints[0].latLng
+                    ++kTeam3Displace3;
+                    ++moveCounterTeam3;
+					console.log('kTeam3Displace3 =',kTeam3Displace3);
+					if ( 0 == finish3 ){
+						setTimeout(displaceMarker3Team3, Math.random()*1500);
+					}
+					else{
+						raceFinish;
+					}
+				}
+				if( kTeam3Displace3 == (coordArr3.length-1) ){
+					finish3 = 1;
+					startMarkerTeam3.setLatLng(L.latLng(latitude4, longitude4));
+					startMarkerTeam3.addTo(map);
+					console.log('Team2 coordArr3.length jTeam2Displace1', coordArr3.length);
+					raceFinish;
+				}
+			}
+
+			var raceFinish = function(){
+				throw new Error("Race Finish!");
+			}
+			routeImpl();
+    </script>
+    
+</body>
+</html>
+

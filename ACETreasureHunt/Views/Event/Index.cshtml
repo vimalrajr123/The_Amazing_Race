@@ -1,0 +1,68 @@
+﻿<link href="@Url.Content("~/Content/eventindex.css")" rel="stylesheet" type="text/css" />
+<style>
+  body{
+        min-width:700px; /* suppose you want minimun width of 1000px */
+        width: auto !important;  /* Firefox will set width as auto */
+        width:1000px;
+    }
+</style>
+
+@model IEnumerable<ACETreasureHunt.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+<body>
+    <div class="container well" style="margin-top:50px;background-color: rgba(0, 0, 0, 0.26);border: 1px solid rgba(0, 0, 0, 0.075);">
+<h2 style="color:aliceblue">Event Details</h2>
+    
+    @if(Context.User.Identity.IsAuthenticated) {
+    <button type="button" class="btn btn-primary btn-lg btn3d">
+    @Html.ActionLink("Create New", "Create")
+    </button>
+    }
+        <button type="button" class="btn btn-primary btn-lg btn3d">
+            @Html.ActionLink("Show Teams", "Index","Team")
+        </button>
+    <div class="row" style="margin-left:20px;">
+@foreach (var item in Model) 
+        {
+<div class="twPc-div left">
+    <a class="twPc-bg twPc-block"></a>
+
+	<div style="color:aliceblue;">
+		<div class="twPc-button">
+            @if(Context.User.Identity.IsAuthenticated) {
+        <b style="background-color:cadetblue;color:aliceblue;border-radius:2px">   @Html.ActionLink("Manage ", "Edit", new { Id=item.Id, StartLatitude = item.StartLatitude, StartLongitude = item.StartLongitude }) </b>
+            }
+        <b style="background-color:cadetblue;color:aliceblue;border-radius:2px">   @Html.ActionLink("Details ", "Details", new { id=item.Id, StartLatitude = item.StartLatitude, StartLongitude = item.StartLongitude }) </b> 
+		</div>
+
+			<img alt="team" src="http://www.nubimagazine.com/wp-content/uploads/2014/11/destiny-game.jpg" class="twPc-avatarImg">
+		<b>Event: <b>@Html.DisplayFor(modelItem => item.Name)</b></b><br />
+       
+		<div class="twPc-divStats">
+            
+            <div>
+			<ul class="twPc-Arrange">
+				<li class="twPc-ArrangeSizeFit">
+						<span class="twPc-StatLabel twPc-block">Start Date</span>
+						<span class="twPc-StatValue"><b> @Html.DisplayFor(modelItem => item.StartDate)</b></span>
+					
+				</li>
+				<li class="twPc-ArrangeSizeFit">
+						<span class="twPc-StatLabel twPc-block">Location</span>
+						<span class="twPc-StatValue"><b> @Html.DisplayFor(modelItem => item.Address)</b></span>
+					
+				</li>				
+			</ul>
+            </div>
+		</div>
+	</div>
+</div>
+          
+
+}
+</div>
+        </div>
+</body>

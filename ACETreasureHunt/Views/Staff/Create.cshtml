@@ -1,0 +1,208 @@
+﻿
+    <link href="@Url.Content("~/Content/form.css")" rel="stylesheet" type="text/css" />
+
+@model ACETreasureHunt.Models.Staff
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container abc">
+<h2 class="white">Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-6">
+
+
+
+    <div class="form-horizontal">
+        <h4 class="white">Staff</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+
+        <div class="row">
+        <div style="margin-left:30px;margin-right:30px;">
+        	<div class="panel panel-default">
+        		<div class="panel-heading">
+			    		<h3 class="panel-title">Staff Details<small>..!</small></h3>
+			 			</div>
+			 			<div class="panel-body">
+			    		<form role="form">
+			    			<div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Staff Name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })			    			
+			    			</div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control", placeholder = "Latitude" } })
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })	
+                            </div>
+			    			<div class="form-group">
+                                 @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control", placeholder = "Longitude" } })
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })			 
+			    			</div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EventID, "Event", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })			 
+			    			</div>
+			    			
+			    			<input type="submit" value="Create" class="btn btn-info btn-block" style="max-width: 100%;" />
+			    		
+			    		</form>
+			    	</div>
+	    		</div>
+    		</div>
+    	</div>
+
+
+
+
+
+
+</div>
+    </div>
+
+
+
+
+
+    <div class="col-xs-12 col-md-12 col-lg-6">
+        <h4 class="white">Location</h4>
+    <div id="map" data-mode="" style=" height: 300px; width: 100%;overflow:auto;">
+        <input type="hidden" data-map-markers="" value="" name="map-geojson-data" />
+    </div>
+    <div style="text-align: -webkit-center;">
+        <input id="btnGetLocation" class="btn btn-primary btn-lg btn3d" type="button" value="Save Location" />
+    </div>
+        </div>
+    </div>
+}
+
+    <div>
+    @Html.ActionLink("Back to List", "Index")
+    </div>
+    </div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                osm = L.tileLayer(osmUrl, {
+                    maxZoom: 18,
+                    attribution: osmAttrib
+                });
+
+
+            var map = L.map('map').setView([1.29866, 103.7783], 13).addLayer(osm);
+
+
+            map.on('click', onMapClick);
+
+
+            function onMapClick(e) {
+
+                var geojsonFeature = {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [e.latlng.lat, e.latlng.lng]
+                    }
+                }
+
+                var marker;
+
+                L.geoJson(geojsonFeature, {
+
+                    pointToLayer: function (feature, latlng) {
+
+                        marker = L.marker(e.latlng, {
+
+                            title: "Resource Location",
+                            alt: "Resource Location",
+                            riseOnHover: true,
+                            draggable: true,
+
+                        }).bindPopup("<input type='button' value='Remove this' class='marker-delete-button'/>");
+
+                        marker.on("popupopen", onPopupOpen);
+
+                        return marker;
+                    }
+                }).addTo(map);
+            }
+
+            function onPopupOpen() {
+
+                var tempMarker = this;
+
+                //var tempMarkerGeoJSON = this.toGeoJSON();
+                //var lID = tempMarker._leaflet_id; // Getting Leaflet ID of this marker
+
+                $(".marker-delete-button:visible").click(function () {
+                    map.removeLayer(tempMarker);
+                });
+            }
+
+            function getAllMarkers() {
+
+                var allMarkersObjArray = [];
+                var allMarkersGeoJsonArray = [];
+
+                $.each(map._layers, function (ml) {
+                    //console.log(map._layers)
+                    if (map._layers[ml].feature) {
+
+                        allMarkersObjArray.push(this)
+                        allMarkersGeoJsonArray.push(JSON.stringify(this.toGeoJSON()))
+                    }
+                })
+
+
+
+                if (allMarkersGeoJsonArray.length == 0) {
+                    alert("Please select a PitStop Location on the Map");
+                } else if (allMarkersGeoJsonArray.length > 1) {
+                    alert("Please select single location for this PitStop");
+                } else {
+                    //alert(allMarkersGeoJsonArray);
+                    //alert(JSON.parse(allMarkersGeoJsonArray).geometry.coordinates);
+                    //alert(JSON.parse(allMarkersGeoJsonArray).geometry.coordinates[0]);
+
+                    $('#Latitude').val(JSON.parse(allMarkersGeoJsonArray).geometry.coordinates[1].toFixed(4));
+                    $('#Longitude').val(JSON.parse(allMarkersGeoJsonArray).geometry.coordinates[0].toFixed(4));
+
+                }
+
+                // console.log(allMarkersObjArray);
+                //alert("total Markers : " + allMarkersGeoJsonArray.length + "\n\n" + allMarkersGeoJsonArray + "\n\n Also see your console for object view of this array");
+            }
+
+            $("#btnGetLocation").on("click", getAllMarkers);
+
+
+        });
+
+
+    </script>
+}
+
+@*'pk.eyJ1IjoiZ3VydXByYWJhIiwiYSI6ImNqMXZtMnAwYTAwMGEyd3BlZDN6b2UyYXQifQ.TLQvP6CeBZLbEWrtmu7fIw'*@
+

@@ -1,0 +1,78 @@
+﻿
+    <link href="@Url.Content("~/Content/pitstop.css")" rel="stylesheet" type="text/css" />
+
+<style>
+  body{
+        min-width:700px; /* suppose you want minimun width of 1000px */
+        width: auto !important;  /* Firefox will set width as auto */
+        width:1000px;
+    }
+</style>
+
+@model IEnumerable<ACETreasureHunt.Models.PitStop>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <div class="container well" style="margin-top:50px;background-color: rgba(0, 0, 0, 0.26);border: 1px solid rgba(0, 0, 0, 0.075);">
+<h2 style="color:aliceblue">Pitstop Details</h2>
+    
+    @if(Context.User.Identity.IsAuthenticated) {
+    <button type="button" class="btn btn-primary btn-lg btn3d">
+    @Html.ActionLink("Create New", "Create")
+    </button>
+    }
+    
+    <div class="row" style="margin-left:20px;">
+@foreach (var item in Model) { 
+        
+
+<div class="twPc-div left">
+    <a class="ack twPc-block"></a>
+
+	<div style="color:aliceblue;">
+		<div class="twPc-button">
+            @if(Context.User.Identity.IsAuthenticated) {
+        <b style="background-color: #232323;color:aliceblue;border-radius:2px">    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) </b>
+         <b style="background-color: #232323;color:aliceblue;border-radius:2px">    @Html.ActionLink("Details", "Details", new { id = item.Id }) </b>
+            <b style="background-color: #232323;color:aliceblue;border-radius:2px">    @Html.ActionLink("Delete", "Delete", new { id=item.Id }) </b>
+           } 
+        </div>
+			<img alt="team" src="http://static4.businessinsider.com/image/554cc8bbeab8eaa8707ab056/animated-map-shows-the-15-happiest-countries-in-the-world.jpg" class="twPc-avatarImg">
+		<b>Pitstop: <b>@Html.DisplayFor(modelItem => item.PitStopName)</b></b><br />
+        
+		<div class="twPc-divStats">
+            
+            <div style="align-content:center;">
+			<ul class="twPc-Arrange"style="align-content:center;">
+                <li class="twPc-ArrangeSizeFit">
+						<span class="twPc-StatLabel twPc-block">Details:</span>
+						<span class="twPc-StatValue"><b> @Html.DisplayFor(modelItem => item.Description)</b></span>
+					
+				</li>
+                <li class="twPc-ArrangeSizeFit">
+                    <span class="twPc-StatLabel twPc-block">Event ID:</span>
+                    <span class="twPc-StatValue"><b>@Html.DisplayFor(modelItem => item.EventID)</b></span>
+
+                </li>
+                <li class="twPc-ArrangeSizeFit">
+						<span class="twPc-StatLabel twPc-block">Order:</span>
+						<span class="twPc-StatValue"><b> @Html.DisplayFor(modelItem => item.PitStopNumber)</b></span>
+					
+				</li>
+		</ul>
+            </div>
+		</div>
+	</div>
+</div>
+          
+
+}
+</div>
+<li>
+     @Html.ActionLink("Back to Events", "Index", "Event")
+</li>
+        </div>
+</body>  

@@ -1,0 +1,106 @@
+﻿
+    <link href="@Url.Content("~/Content/form.css")" rel="stylesheet" type="text/css" />
+
+
+
+@model ACETreasureHunt.Models.Staff
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div class="container abc">
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-6">
+            <div style=" text-align: -webkit-center;">
+                <h2 class="w">Staff Details</h2>
+                <dl class="dl-horizontal" style="margin-top:5%;">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd class="w">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Latitude)
+                    </dt>
+
+                    <dd class="w">
+                        @Html.DisplayFor(model => model.Latitude)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Longitude)
+                    </dt>
+
+                    <dd class="w">
+                        @Html.DisplayFor(model => model.Longitude)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EventID)
+                    </dt>
+
+                    <dd class="w">
+                        @Html.DisplayFor(model => model.EventID)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 col-md-12 col-lg-6">
+
+            <div id="map" data-mode="" style=" height: 300px; width: 100%;overflow:auto;">
+                <input type="hidden" data-map-markers="" value="" name="map-geojson-data" />
+            </div>
+        </div>
+
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                osm = L.tileLayer(osmUrl, {
+                    maxZoom: 18,
+                    attribution: osmAttrib
+                });
+
+
+            var mapLat = @Model.Latitude.ToString();
+            var mapLon = @Model.Longitude.ToString();
+            var platlng = L.latLng(mapLat, mapLon);
+
+
+            var map = L.map('map').setView([mapLat, mapLon], 13).addLayer(osm);
+
+            L.circle([mapLat, mapLon], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 50
+            }).addTo(map);
+
+            //var marker = L.marker([mapLon, mapLat]).addTo(map);
+
+
+
+        });
+
+
+    </script>
+}

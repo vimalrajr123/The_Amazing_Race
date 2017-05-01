@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link href="@Url.Content("~/Content/home.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/worldmap.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/flipflop.css")" rel="stylesheet" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="js/main.js"></script>
+</head>
+<script>
+        $(document).ready(function () {
+
+            setTimeout(function () {
+                $('body').addClass('loaded');
+            }, 3000);
+
+        });
+</script>
+<body>
+    <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+     
+<div class="container">
+    <div class="row" style="margin-left: 65px;margin-top: 75px;">
+        
+     		<div class="col-lg-6 col-md-6 col-sm-12">
+            <h1 class="fade-in" style="font-size: 70px;">"<b>ACE</b>"</h1>
+            <h3 class="fade-in" style="font-size: 50px; color:aliceblue; left: 10%;">RACE TO WIN</h3>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+               <div><img alt="click me" src="http://shivaninegi.com/img/click_arrow.png" class="click"></div> 
+                <div class="box" onclick="location.href='@Url.Action("Index", "Event")'"><span></span></div>
+            </div>
+        </div>
+        
+
+
+    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+  <div class="flipper">
+
+
+    <div class="front">
+      <div class="row ab">
+    <div class="col-md-4">
+        <h2 class="abt">Events</h2>
+        <p class="about">
+            Each Event of The Amazing Race generally consists of teams leaving from the previous Pit Stop and traveling to a different location , where they perform two or more tasks, generally including one Detour and one Roadblock, before being given instructions to go to the next Pit Stop.
+        </p>
+       
+    </div>
+    <div class="col-md-4">
+        <h2 class="abt">Pit Stops</h2>
+        <p class="about">A pit stop is a finish line of an individual leg of the race. After teams complete all necessary detours, roadblocks, and other tasks they are directed to the location of the pit stop. Alternatively if a team completes the Fast Forward challenge they bypass any other challenges and go straight to the pit stop.</p>
+       
+    </div>
+    <div class="col-md-4">
+        <h2 class="abt">Support Staff</h2>
+        <p class="about">supports the people who are involved in the Race ,support staff will be allocated to each Pitstops and One of the purpose is that in the event of injury or other unfortunate events, the company can easily dispatch people </p>
+        
+    </div>
+    </div>
+    </div>
+
+
+
+    <div class="back">
+        <div class="row ab">
+        <h2 class="abt"><u>About</u></h2>
+        <p class="about">The Amazing Race is a reality television game show in which teams of two people race around the world in competition with other teams. Contestants strive to arrive first at "Pit Stops" at the end of each leg of the race to win prizes and to avoid coming in last, which carries the possibility of elimination or a significant disadvantage in the following leg. Contestants travel to and within multiple countries in a variety of transportation modes, including airplanes, hot air balloons, helicopters, trucks, bicycles, taxicabs, cars, trains, buses, boats, and by foot. Clues provided in each leg lead the teams to the next destination or direct them to perform a task, either together or by a single member. These challenges are related in some manner to the country wherein they are located or its culture. Teams are progressively eliminated until three are left; at that point, the team that arrives first in the final leg is awarded the grand prize.</p>
+    </div>
+        
+    </div>
+  </div>
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
